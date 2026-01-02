@@ -1,0 +1,20 @@
+class Solution(object):
+    def queensAttacktheKing(self, queens, king):
+        """
+        :type queens: List[List[int]]
+        :type king: List[int]
+        :rtype: List[List[int]]
+        """
+        marked=0
+        for queen in queens:
+            marked|=(1<<(queen[0]*8+queen[1]))
+        res=[]
+        for dx,dy in [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]:
+            x,y=king
+            while 0<=x+dx<8 and 0<=y+dy<8:
+                x+=dx
+                y+=dy
+                if marked&(1<<(x*8+y)):
+                    res.append([x,y])
+                    break
+        return res
