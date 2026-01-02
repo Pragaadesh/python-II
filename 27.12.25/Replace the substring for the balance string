@@ -1,0 +1,29 @@
+class Solution(object):
+    def balancedString(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n = len(s) 
+        limit = n // 4 
+        count = {'Q': 0, 'W': 0, 'E': 0, 'R': 0} 
+        
+        for char in s:
+            count[char] += 1
+        
+        if max(count.values()) == limit: 
+            return 0
+
+        ans = n 
+        left = 0 
+
+        for right in range(n): 
+            count[s[right]] -=1 
+
+            while left <= right and max(count.values()) <= limit: 
+                                                               
+                ans = min(ans, right - left +1) 
+                count[s[left]] +=1 
+                left +=1 
+        
+        return ans
