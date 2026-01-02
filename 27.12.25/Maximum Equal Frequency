@@ -1,0 +1,52 @@
+import collections
+
+def FreqCount(nums):
+    freq = collections.defaultdict(int)
+    for n in nums:
+        freq[n] += 1
+    return dict(freq)
+
+def FreqFreq(freq):
+    freq_freq = collections.defaultdict(int)
+    for count in freq.values():
+        freq_freq[count] += 1
+    return dict(freq_freq)
+
+def PrefixEqualFreq(nums):
+    freq = FreqCount(nums)
+    while nums:
+        # tongue twister time!  Turn frequency counts into a frequency dict
+        freq_freq = FreqFreq(freq)
+        freq_freq_n = len(freq_freq)
+        if freq_freq_n == 1:
+            # Check if every number is unique, or all numbers are the same.
+            # Both situations remain valid when one letter is removed.
+            if 1 in freq_freq or 1 in freq_freq.values():
+                return len(nums)
+
+        elif freq_freq_n == 2:
+            # odd one out. skip it, making nums valid.
+            if 1 in freq_freq and freq_freq[1] == 1:
+                return len(nums)
+            
+            else:
+                # keys are groups of N letters.  If the groups differ by one,
+                # and the larger group only appears once, it can be turned into
+                # the smaller group by ignoring one letter.
+                keys = freq_freq.keys()
+                # This tricky line calls integer subtraction on the two keys.
+                if (  int.__sub__(*keys) in [-1,1]
+                      and freq_freq[max(keys)] == 1  ):
+                    return len(nums)
+
+        gone = nums[-1]
+        del nums[-1]
+        freq[gone] -= 1
+        if freq[gone] == 0:
+            del freq[gone]
+
+    return 0
+
+class Solution(object):
+    def maxEqualFreq(self, nums):
+        return PrefixEqualFreq(nums)
