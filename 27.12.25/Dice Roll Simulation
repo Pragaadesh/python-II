@@ -1,0 +1,22 @@
+class Solution(object):
+    def dieSimulator(self, n, rollMax):
+        """
+        :type n: int
+        :type rollMax: List[int]
+        :rtype: int
+        """
+        dp = defaultdict(lambda : 1)
+        MODD = 10**9 + 7
+        
+        for i in xrange(1, n):            
+            for prev in xrange(6):
+                for seq in xrange(1, rollMax[prev] + 1):
+                    res = 0
+                    for roll in xrange(6):
+                        if roll == prev:
+                            if seq < rollMax[prev]:
+                                res = (res + dp[(i-1, prev, seq + 1)]) % MODD
+                        else:
+                            res = (res + dp[(i-1, roll, 1)]) % MODD
+                    dp[(i,prev,seq)] = res
+        return sum([dp[(n-1, roll, 1)] for roll in xrange(6)]) % MODD
