@@ -1,0 +1,25 @@
+class Solution(object):
+    def maximumTime(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        ans=""
+        for idx in range(len(time)):
+            if idx==0 and (time[idx+1]<"4" or time[idx+1]=="?") and time[idx]=="?":
+                ans+="2"
+            elif idx==0 and time[idx]=="?":
+                ans+="1"
+            elif idx==1 and ans[idx-1]=="2" and time[idx]=="?":
+                ans+="3"
+            elif idx==1 and time[idx]=="?":
+                ans+="9"
+            elif idx==3 and time[idx]=="?":
+                ans+="5"
+            elif idx==4 and time[idx]=="?":
+                ans+="9"
+            else:
+                ans+=time[idx]
+        return ans
+
+        
