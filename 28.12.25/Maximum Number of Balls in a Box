@@ -1,0 +1,20 @@
+class Solution(object):
+    def countBalls(self, lowLimit, highLimit):
+        """
+        :type lowLimit: int
+        :type highLimit: int
+        :rtype: int
+        """
+        d = {}
+        for i in range(lowLimit,highLimit+1):
+            i = str(i)
+            temp = 0
+            for j in i:
+                temp += int(j)
+            
+            if temp not in d:
+                d[temp] = 1
+            else:
+                d[temp] += 1
+        
+        return max(d.values())
