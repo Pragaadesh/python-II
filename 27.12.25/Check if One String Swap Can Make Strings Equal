@@ -1,0 +1,15 @@
+class Solution(object):
+    def areAlmostEqual(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        swaps = []
+        if len(s1)!=len(s2): return False
+        for i in range(len(s1)): 
+            if s1[i]!=s2[i]: swaps.append(i)
+        if len(swaps)==0: return True
+        if len(swaps)!=2: return False
+        if s1[swaps[0]]==s2[swaps[1]] and s1[swaps[1]]==s2[swaps[0]]: return True
+        return False
