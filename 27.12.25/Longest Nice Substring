@@ -1,0 +1,57 @@
+
+
+class Solution(object):
+    nice_substrings = []
+    s = ""
+
+    def findNiceSubstrings(self, start_ind, end_ind):
+        if end_ind - start_ind < 2:
+            return
+        checked = set()
+        for i in range(start_ind, end_ind):
+            if self.s[i] in checked:
+                continue
+            lower_char = self.s[i].lower()
+            upper_char = self.s[i].upper()
+            is_lower = self.s[i] == lower_char
+            if is_lower:
+                is_nice = self.s.find(upper_char, i, end_ind) != -1
+            else: 
+                is_nice = self.s.find(lower_char, i, end_ind) != -1
+
+            if not is_nice:
+                return self.findNiceSubstrings(start_ind, i), \
+                       self.findNiceSubstrings(i+1, end_ind)
+            else:
+                checked.add(lower_char)
+                checked.add(upper_char)
+        self.nice_substrings.append(self.s[start_ind:end_ind])
+
+
+    def longestNiceSubstring(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        self.nice_substrings = []
+        self.s = s
+        self.findNiceSubstrings(0, len(s))
+        if len(self.nice_substrings) == 0:
+            return ""
+        elif len(self.nice_substrings) == 1:
+            return self.nice_substrings[0]
+        else:
+            max_nice_len = 2
+            max_nice_ind = 0
+            for i in range(0, len(self.nice_substrings)):
+                if len(self.nice_substrings[i]) > max_nice_len:
+                    max_nice_ind = i
+                    max_nice_len = len(self.nice_substrings[i])
+            return self.nice_substrings[max_nice_ind]
+
+
+            
+
+
+
+            
